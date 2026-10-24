@@ -3,6 +3,9 @@
  * Main entry point for ES6 modules
  */
 
+export const VERSION = '3.1.0';
+export const version = VERSION;
+
 export { Token, TokenStream, TokenStreamFromList } from './token.js';
 export { LexerGrammar } from './lexer_grammar.js';
 export { Lexer } from './lexer.js';

@@ -3,18 +3,18 @@
   "version": "3.1.0",
   "description": "ES6 JavaScript parser generator for building Abstract Syntax Trees from text input. Browser-compatible, no dependencies.",
   "type": "module",
-  "main": "dist/alteraparser.cjs",
-  "module": "dist/alteraparser.esm.js",
-  "browser": "dist/alteraparser.umd.js",
+  "main": "dist/alteraparser-3.1.0.cjs",
+  "module": "dist/alteraparser-3.1.0.esm.js",
+  "browser": "dist/alteraparser-3.1.0.umd.js",
   "exports": {
     ".": {
-      "import": "./dist/alteraparser.esm.js",
-      "require": "./dist/alteraparser.cjs",
-      "default": "./dist/alteraparser.esm.js"
+      "import": "./dist/alteraparser-3.1.0.esm.js",
+      "require": "./dist/alteraparser-3.1.0.cjs",
+      "default": "./dist/alteraparser-3.1.0.esm.js"
     },
-    "./esm": "./dist/alteraparser.esm.js",
-    "./cjs": "./dist/alteraparser.cjs",
-    "./umd": "./dist/alteraparser.umd.js"
+    "./esm": "./dist/alteraparser-3.1.0.esm.js",
+    "./cjs": "./dist/alteraparser-3.1.0.cjs",
+    "./umd": "./dist/alteraparser-3.1.0.umd.js"
   },
   "keywords": [
     "parser",

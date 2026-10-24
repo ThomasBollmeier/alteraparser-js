@@ -16,7 +16,9 @@ import {
   many,
   opt,
   Parser,
-  TextParser
+  TextParser,
+  VERSION,
+  version
 } from './src/index.js';
 
 function testTokenCreation() {
@@ -107,6 +109,14 @@ function testDefineRuleAndRuleConfig() {
   console.log('✓ defineRule and RuleConfig works\n');
 }
 
+function testVersionMetadata() {
+  console.log('Test 7: Version metadata');
+  assert.strictEqual(typeof VERSION, 'string', 'VERSION should be a string');
+  assert.strictEqual(VERSION, '3.1.0', 'VERSION should match package version');
+  assert.strictEqual(version, VERSION, 'version alias should match VERSION');
+  console.log('✓ Version metadata works\n');
+}
+
 async function runTests() {
   console.log('Testing AlteraParser...\n');
 
@@ -116,6 +126,7 @@ async function runTests() {
   testAst();
   testGrammarAndParser();
   testDefineRuleAndRuleConfig();
+  testVersionMetadata();
 
   console.log('All tests passed! ✓');
 }

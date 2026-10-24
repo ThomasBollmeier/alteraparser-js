@@ -7,24 +7,24 @@ This library is configured with **Rollup** and **Terser** to produce multiple ou
 Each format is available in two versions: development (with full code) and minified (for production).
 
 ### ESM (ECMAScript Modules)
-- **Development**: `dist/alteraparser.esm.js` (26 KB)
-- **Minified**: `dist/alteraparser.esm.min.js` (12 KB, 56% reduction)
+- **Development**: `dist/alteraparser-3.1.0.esm.js` (26 KB)
+- **Minified**: `dist/alteraparser-3.1.0.esm.min.js` (12 KB, 56% reduction)
 - **Use case**: Modern JavaScript applications, ES6 imports, tree-shakeable
 - **Import**: `import { Parser, Grammar } from 'alteraparser'`
 - **Direct import**: `import { Parser, Grammar } from 'alteraparser/esm'`
 
 ### CommonJS
-- **Development**: `dist/alteraparser.cjs` (26 KB)
-- **Minified**: `dist/alteraparser.cjs.min.js` (12 KB, 57% reduction)
+- **Development**: `dist/alteraparser-3.1.0.cjs` (26 KB)
+- **Minified**: `dist/alteraparser-3.1.0.cjs.min.js` (12 KB, 57% reduction)
 - **Use case**: Node.js with CommonJS, maximum compatibility
 - **Require**: `const { Parser, Grammar } = require('alteraparser')`
 - **Direct require**: `const { Parser, Grammar } = require('alteraparser/cjs')`
 
 ### UMD (Universal Module Definition)
-- **Development**: `dist/alteraparser.umd.js` (29 KB)
-- **Minified**: `dist/alteraparser.umd.min.js` (12 KB, 60% reduction)
+- **Development**: `dist/alteraparser-3.1.0.umd.js` (29 KB)
+- **Minified**: `dist/alteraparser-3.1.0.umd.min.js` (12 KB, 60% reduction)
 - **Use case**: Browser globals, legacy environments, direct script loading
-- **Browser usage**: `<script src="dist/alteraparser.umd.min.js"></script>`
+- **Browser usage**: `<script src="dist/alteraparser-3.1.0.umd.min.js"></script>`
 - **Browser global**: `window.alteraparser`
 
 ## Building
@@ -59,14 +59,14 @@ All versions include source maps (54 KB each) for debugging in production.
 ### Modern Approach (ES6 modules, minified)
 ```html
 <script type="module">
-  import { Parser, Grammar, tok, seq } from './dist/alteraparser.esm.min.js';
+  import { Parser, Grammar, tok, seq } from './dist/alteraparser-3.1.0.esm.min.js';
   // Use the library
 </script>
 ```
 
 ### Legacy Approach (UMD global, minified)
 ```html
-<script src="dist/alteraparser.umd.min.js"></script>
+<script src="dist/alteraparser-3.1.0.umd.min.js"></script>
 <script>
   const { Parser, Grammar, tok, seq } = window.alteraparser;
   // Use the library
@@ -101,9 +101,9 @@ The package.json configures conditional exports for automatic format selection:
 ```json
 "exports": {
   ".": {
-    "import": "./dist/alteraparser.esm.js",  // ESM import
-    "require": "./dist/alteraparser.cjs",    // CJS require
-    "default": "./dist/alteraparser.esm.js"  // Fallback
+    "import": "./dist/alteraparser-3.1.0.esm.js",  // ESM import
+    "require": "./dist/alteraparser-3.1.0.cjs",    // CJS require
+    "default": "./dist/alteraparser-3.1.0.esm.js"  // Fallback
   }
 }
 ```

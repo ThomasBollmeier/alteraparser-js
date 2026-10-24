@@ -1,22 +1,28 @@
 import terser from '@rollup/plugin-terser';
 
+const VERSION = '3.1.0';
+
+const filenamePrefix = `alteraparser-${VERSION}`;
+
 export default [
   // ESM build (development)
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.esm.js',
+      file: `dist/${filenamePrefix}.esm.js`,
       format: 'es',
-      sourcemap: true
+      sourcemap: true,
+      banner: `/* AlteraParser v${VERSION} */`
     }
   },
   // ESM build (minified)
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.esm.min.js',
+      file: `dist/${filenamePrefix}.esm.min.js`,
       format: 'es',
-      sourcemap: true
+      sourcemap: true,
+      banner: `/* AlteraParser v${VERSION} */`
     },
     plugins: [terser()]
   },
@@ -24,20 +30,22 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.cjs',
+      file: `dist/${filenamePrefix}.cjs`,
       format: 'cjs',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      banner: `/* AlteraParser v${VERSION} */`
     }
   },
   // CommonJS build (minified)
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.cjs.min.js',
+      file: `dist/${filenamePrefix}.cjs.min.js`,
       format: 'cjs',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      banner: `/* AlteraParser v${VERSION} */`
     },
     plugins: [terser()]
   },
@@ -45,22 +53,24 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.umd.js',
+      file: `dist/${filenamePrefix}.umd.js`,
       format: 'umd',
       name: 'alteraparser',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      banner: `/* AlteraParser v${VERSION} */`
     }
   },
   // UMD build (minified)
   {
     input: 'src/index.js',
     output: {
-      file: 'dist/alteraparser.umd.min.js',
+      file: `dist/${filenamePrefix}.umd.min.js`,
       format: 'umd',
       name: 'alteraparser',
       sourcemap: true,
-      exports: 'named'
+      exports: 'named',
+      banner: `/* AlteraParser v${VERSION} */`
     },
     plugins: [terser()]
   }
