@@ -1,4 +1,4 @@
-# AlteraParser - ES5 JavaScript Edition
+# AlteraParser - JavaScript Edition
 
 A JavaScript port of the Python AlteraParser library. Build parsers and parse text to Abstract Syntax Trees (AST) using a declarative grammar DSL.
 
