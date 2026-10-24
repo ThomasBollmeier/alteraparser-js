@@ -14,7 +14,7 @@
     var parser = require('./parser.js');
     
     module.exports = factory(
-      token, lexerGrammar, lexer, ast, grammar, parser
+      token, lexerGrammar, ast, grammar, lexer, parser
     );
   } else {
     // Browser globals
