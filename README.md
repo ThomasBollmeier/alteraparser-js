@@ -4,7 +4,7 @@ A JavaScript port of the Python AlteraParser library. Build parsers and parse te
 
 ## Features
 
-- **ES5 Compatible**: Works in all browsers and Node.js environments
+- **ES6 Compatible**: Works in all browsers and Node.js environments
 - **No Dependencies**: Zero external dependencies
 - **Grammar DSL**: Express grammars declaratively with an easy-to-use API
 - **Tree Walking**: Built-in AST walkers for traversing and transforming parse trees
