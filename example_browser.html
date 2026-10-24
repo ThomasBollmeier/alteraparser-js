@@ -78,47 +78,51 @@
     </ul>
   </div>
 
-  <!-- Load the library files -->
-  <script src="src/token.js"></script>
-  <script src="src/lexer_grammar.js"></script>
-  <script src="src/ast.js"></script>
-  <script src="src/grammar.js"></script>
-  <script src="src/lexer.js"></script>
-  <script src="src/parser.js"></script>
+  <!-- Load the library as an ES6 module -->
+  <script type="module">
+    import {
+      LexerGrammar,
+      Grammar,
+      tok,
+      seq,
+      choice,
+      many,
+      TextParser,
+      AstStrWriter
+    } from './src/index.js';
 
-  <script>
     // Set up the simple number parser
-    var numberLexerGrammar = new window.alteraparser.LexerGrammar();
+    var numberLexerGrammar = new LexerGrammar();
     numberLexerGrammar.addRule('NUMBER', '[0-9]+');
     numberLexerGrammar.addRule('PLUS', '\\+');
     numberLexerGrammar.addRule('MINUS', '-');
     numberLexerGrammar.addRule('WS', '\\s+', true);
 
-    var numberGrammar = new window.alteraparser.Grammar();
+    var numberGrammar = new Grammar();
     numberGrammar.addRule('expr', function(g) {
-      return window.alteraparser.seq(
-        window.alteraparser.tok('NUMBER'),
-        window.alteraparser.many(
-          window.alteraparser.seq(
-            window.alteraparser.choice(
-              window.alteraparser.tok('PLUS'),
-              window.alteraparser.tok('MINUS')
+      return seq(
+        tok('NUMBER'),
+        many(
+          seq(
+            choice(
+              tok('PLUS'),
+              tok('MINUS')
             ),
-            window.alteraparser.tok('NUMBER')
+            tok('NUMBER')
           )
         )
       );
     }, true);
 
-    var numberParser = new window.alteraparser.TextParser(numberGrammar, numberLexerGrammar);
+    var numberParser = new TextParser(numberGrammar, numberLexerGrammar);
 
-    function parseNumber() {
+    window.parseNumber = function() {
       var input = document.getElementById('numberInput').value;
       var output = document.getElementById('numberOutput');
       
       try {
         var ast = numberParser.parseText(input);
-        var writer = new window.alteraparser.AstStrWriter();
+        var writer = new AstStrWriter();
         var astString = writer.writeAstToStr(ast);
         output.className = 'output success';
         output.textContent = 'Parse successful!\n\nAST:\n' + astString;
@@ -126,17 +130,17 @@
         output.className = 'output error';
         output.textContent = 'Parse error: ' + e.message;
       }
-    }
+    };
 
     // Parse on Enter key
     document.getElementById('numberInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') {
-        parseNumber();
+        window.parseNumber();
       }
     });
 
     // Initial parse
-    parseNumber();
+    window.parseNumber();
   </script>
 </body>
 </html>
