@@ -377,13 +377,13 @@ try {
 
 ## Performance Notes
 
-- The parser uses backtracking and maintains all possible parse paths
+- The parser maintains all possible parse paths
 - For ambiguous grammars, parsing may be slower as all paths are explored
 - The lexer performs efficient single-pass tokenization
 
 ## License
 
-Apache-2.0
+MIT
 
 ## Credits
 
