@@ -1,7 +1,8 @@
 {
   "name": "alteraparser",
-  "version": "2.5.3",
-  "description": "ES5 JavaScript parser generator for building Abstract Syntax Trees from text input. Browser-compatible, no dependencies.",
+  "version": "3.0.0",
+  "description": "ES6 JavaScript parser generator for building Abstract Syntax Trees from text input. Browser-compatible, no dependencies.",
+  "type": "module",
   "main": "src/index.js",
   "browser": "src/index.js",
   "keywords": [
@@ -10,7 +11,8 @@
     "lexer",
     "ast",
     "parser-generator",
-    "es5"
+    "es6",
+    "esm"
   ],
   "author": "Thomas Bollmeier",
   "license": "Apache-2.0",
@@ -19,7 +21,7 @@
     "url": "https://github.com/thomasbollmeier/alteraparser-js.git"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "src/",

@@ -1,78 +1,41 @@
 /**
- * Alteraparser - ES5 JavaScript version
- * Main entry point for CommonJS and browser
+ * Alteraparser - ES6 JavaScript version
+ * Main entry point for ES6 modules
  */
 
-(function(root, factory) {
-  if (typeof module !== 'undefined' && module.exports) {
-    // CommonJS/Node.js
-    var token = require('./token.js');
-    var lexerGrammar = require('./lexer_grammar.js');
-    var lexer = require('./lexer.js');
-    var ast = require('./ast.js');
-    var grammar = require('./grammar.js');
-    var parser = require('./parser.js');
-    
-    module.exports = factory(
-      token, lexerGrammar, ast, grammar, lexer, parser
-    );
-  } else {
-    // Browser globals
-    root.alteraparser = factory(
-      root.alteraparser,
-      root.alteraparser,
-      root.alteraparser,
-      root.alteraparser,
-      root.alteraparser,
-      root.alteraparser
-    );
-  }
-}(typeof self !== 'undefined' ? self : this, function(token, lexerGrammar, ast, grammar, lexer, parser) {
-  
-  return {
-    // Token classes
-    Token: token.Token,
-    TokenStream: token.TokenStream,
-    TokenStreamFromList: token.TokenStreamFromList,
-    
-    // Lexer classes
-    LexerGrammar: lexerGrammar.LexerGrammar,
-    Lexer: lexer.Lexer,
-    
-    // AST classes
-    Ast: ast.Ast,
-    AstStrWriter: ast.AstStrWriter,
-    AstWalker: ast.AstWalker,
-    walk: ast.walk,
-    AstTransformer: ast.AstTransformer,
-    transformAst: ast.transformAst,
-    
-    // Grammar classes and functions
-    GrammarNodeType: grammar.GrammarNodeType,
-    GrammarNode: grammar.GrammarNode,
-    RuleStartNode: grammar.RuleStartNode,
-    RuleEndNode: grammar.RuleEndNode,
-    GrammarElement: grammar.GrammarElement,
-    connect: grammar.connect,
-    NormalElement: grammar.NormalElement,
-    TokenElement: grammar.TokenElement,
-    tok: grammar.tok,
-    Sequence: grammar.Sequence,
-    seq: grammar.seq,
-    Choice: grammar.Choice,
-    choice: grammar.choice,
-    Optional: grammar.Optional,
-    opt: grammar.opt,
-    Many: grammar.Many,
-    many: grammar.many,
-    oneOrMore: grammar.oneOrMore,
-    Rule: grammar.Rule,
-    rule: grammar.rule,
-    astTransformer: grammar.astTransformer,
-    Grammar: grammar.Grammar,
-    
-    // Parser classes
-    Parser: parser.Parser,
-    TextParser: parser.TextParser
-  };
-}));
+export { Token, TokenStream, TokenStreamFromList } from './token.js';
+export { LexerGrammar } from './lexer_grammar.js';
+export { Lexer } from './lexer.js';
+export {
+  Ast,
+  AstStrWriter,
+  AstWalker,
+  walk,
+  AstTransformer,
+  transformAst
+} from './ast.js';
+export {
+  GrammarNodeType,
+  GrammarNode,
+  RuleStartNode,
+  RuleEndNode,
+  GrammarElement,
+  connect,
+  NormalElement,
+  TokenElement,
+  tok,
+  Sequence,
+  seq,
+  Choice,
+  choice,
+  Optional,
+  opt,
+  Many,
+  many,
+  oneOrMore,
+  Rule,
+  rule,
+  astTransformer,
+  Grammar
+} from './grammar.js';
+export { Parser, TextParser } from './parser.js';

@@ -3,10 +3,19 @@
  * This example shows how to create a parser for arithmetic expressions like "1 + 2 * 3"
  */
 
-var alteraparser = require('./src/index.js');
+import {
+  LexerGrammar,
+  Grammar,
+  TextParser,
+  AstStrWriter,
+  tok,
+  seq,
+  choice,
+  many
+} from './src/index.js';
 
 // Create a simple arithmetic expression lexer grammar
-var lexerGrammar = new alteraparser.LexerGrammar();
+const lexerGrammar = new LexerGrammar();
 lexerGrammar.addRule('NUMBER', '[0-9]+');
 lexerGrammar.addRule('PLUS', '\\+');
 lexerGrammar.addRule('MINUS', '-');
@@ -17,16 +26,16 @@ lexerGrammar.addRule('RPAREN', '\\)');
 lexerGrammar.addRule('WS', '\\s+', true); // ignore whitespace
 
 // Create the grammar for arithmetic expressions
-var grammar = new alteraparser.Grammar();
+const grammar = new Grammar();
 
 // expression = term (('+' | '-') term)*
-grammar.addRule('expression', function(g) {
-  return alteraparser.seq(
+grammar.addRule('expression', (g) => {
+  return seq(
     g.getRule('term'),
-    alteraparser.many(alteraparser.seq(
-      alteraparser.choice(
-        alteraparser.tok('PLUS'),
-        alteraparser.tok('MINUS')
+    many(seq(
+      choice(
+        tok('PLUS'),
+        tok('MINUS')
       ),
       g.getRule('term')
     ))
@@ -34,13 +43,13 @@ grammar.addRule('expression', function(g) {
 }, true); // true marks this as the start rule
 
 // term = factor (('*' | '/') factor)*
-grammar.addRule('term', function(g) {
-  return alteraparser.seq(
+grammar.addRule('term', (g) => {
+  return seq(
     g.getRule('factor'),
-    alteraparser.many(alteraparser.seq(
-      alteraparser.choice(
-        alteraparser.tok('MULT'),
-        alteraparser.tok('DIV')
+    many(seq(
+      choice(
+        tok('MULT'),
+        tok('DIV')
       ),
       g.getRule('factor')
     ))
@@ -48,22 +57,22 @@ grammar.addRule('term', function(g) {
 });
 
 // factor = NUMBER | '(' expression ')'
-grammar.addRule('factor', function(g) {
-  return alteraparser.choice(
-    alteraparser.tok('NUMBER'),
-    alteraparser.seq(
-      alteraparser.tok('LPAREN'),
+grammar.addRule('factor', (g) => {
+  return choice(
+    tok('NUMBER'),
+    seq(
+      tok('LPAREN'),
       g.getRule('expression'),
-      alteraparser.tok('RPAREN')
+      tok('RPAREN')
     )
   );
 });
 
 // Create parser
-var parser = new alteraparser.TextParser(grammar, lexerGrammar);
+const parser = new TextParser(grammar, lexerGrammar);
 
 // Test parsing various expressions
-var testCases = [
+const testCases = [
   '42',
   '1 + 2',
   '3 - 4',
@@ -74,17 +83,17 @@ var testCases = [
 
 console.log('Parsing arithmetic expressions...\n');
 
-testCases.forEach(function(expr) {
+testCases.forEach((expr) => {
   try {
-    console.log('Parsing: ' + expr);
-    var ast = parser.parseText(expr);
-    
+    console.log(`Parsing: ${expr}`);
+    const ast = parser.parseText(expr);
+
     // Print the AST
-    var writer = new alteraparser.AstStrWriter();
-    var astString = writer.writeAstToStr(ast);
+    const writer = new AstStrWriter();
+    const astString = writer.writeAstToStr(ast);
     console.log('AST:');
     console.log(astString);
   } catch (e) {
-    console.error('Parse error: ' + e.message);
+    console.error(`Parse error: ${e.message}`);
   }
 });
