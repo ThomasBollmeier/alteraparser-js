@@ -432,6 +432,10 @@ export class Grammar {
     this.astTransformers[ruleName] = transformer;
   }
 
+  defineRule(name, expander) {
+    return new RuleConfig(this, name, expander);
+  }
+
   getRule(name) {
     const expander = this.rules[name];
     return new Rule(this, name, expander);
@@ -444,4 +448,34 @@ export class Grammar {
   get(item) {
     return this.getRule(item);
   }
+}
+
+class RuleConfig {
+  
+  constructor(grammar, name, expander) {
+    this.grammar = grammar;
+    this.name = name;
+    this.expander = expander;
+    this.isStartRule = false  ;
+    this.transformer = null;
+  }
+
+  setAsStartRule() {
+    this.isStartRule = true;
+    return this;
+  }
+
+  transform(transformer) {
+    this.transformer = transformer;
+    return this;
+  }
+
+  finalize() {
+    this.grammar.addRule(this.name, this.expander, this.isStartRule);
+    if (this.transformer) {
+      this.grammar.addAstTransformer(this.name, this.transformer);
+    }
+    return this;
+  }
+
 }

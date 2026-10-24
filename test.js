@@ -19,10 +19,7 @@ import {
   TextParser
 } from './src/index.js';
 
-async function runTests() {
-  console.log('Testing AlteraParser...\n');
-
-  // Test 1: Basic Token creation
+function testTokenCreation() {
   console.log('Test 1: Token Creation');
   const token = new Token('NUMBER', '42', 1, 5);
   assert.strictEqual(token.tokenType, 'NUMBER', 'Token type should be NUMBER');
@@ -30,8 +27,9 @@ async function runTests() {
   assert.strictEqual(token.line, 1, 'Token line should be 1');
   assert.strictEqual(token.column, 5, 'Token column should be 5');
   console.log('✓ Token creation works\n');
+}
 
-  // Test 2: LexerGrammar
+function testLexerGrammar() {
   console.log('Test 2: LexerGrammar');
   const lexerGrammar = new LexerGrammar();
   lexerGrammar.addRule('NUMBER', '[0-9]+');
@@ -39,8 +37,9 @@ async function runTests() {
   const rules = lexerGrammar.getRules();
   assert.strictEqual(rules.length, 2, 'Should have 2 rules');
   console.log('✓ LexerGrammar works\n');
+}
 
-  // Test 3: Lexer
+function testLexer() {
   console.log('Test 3: Lexer');
   const testLexerGrammar = new LexerGrammar();
   testLexerGrammar.addRule('NUMBER', '[0-9]+');
@@ -55,8 +54,9 @@ async function runTests() {
   const t3 = lexer.advance();
   assert.strictEqual(t3.tokenType, 'NUMBER', 'Third token should be NUMBER');
   console.log('✓ Lexer works\n');
+}
 
-  // Test 4: AST
+function testAst() {
   console.log('Test 4: AST');
   const ast = new Ast('expression', null, 'expr1');
   assert.strictEqual(ast.name, 'expression', 'AST name should be expression');
@@ -64,8 +64,9 @@ async function runTests() {
   ast.addChild(childAst);
   assert.strictEqual(ast.getChildren().length, 1, 'Should have 1 child');
   console.log('✓ AST works\n');
+}
 
-  // Test 5: Grammar and Parser
+function testGrammarAndParser() {
   console.log('Test 5: Grammar and Parser');
   const grammar = new Grammar();
 
@@ -82,6 +83,39 @@ async function runTests() {
   const resultAst = textParser.parseText('42 + 7 + 3');
   assert.strictEqual(resultAst.name, 'expression', 'Result should be expression');
   console.log('✓ Grammar and Parser work\n');
+}
+
+function testDefineRuleAndRuleConfig() {
+  console.log('Test 6: defineRule and RuleConfig');
+  const grammar = new Grammar();
+  const transformer = ast => ast;
+  const expander = g => seq(tok('NUMBER'), opt(seq(tok('PLUS'), g.get('expression'))));
+
+  const config = grammar
+    .defineRule('expression', expander)
+    .setAsStartRule()
+    .transform(transformer)
+    .finalize();
+
+  assert.strictEqual(config.name, 'expression', 'Rule name should be expression');
+  assert.strictEqual(config.isStartRule, true, 'Rule should be marked as start rule');
+  assert.strictEqual(config.transformer, transformer, 'Rule transformer should be registered');
+  assert.strictEqual(grammar.rules.expression, expander, 'Grammar should store the rule expander');
+  assert.strictEqual(grammar.startRuleName, 'expression', 'Grammar start rule should be expression');
+  assert.strictEqual(grammar.getAstTransformer('expression'), transformer, 'AST transformer should be registered');
+  assert.strictEqual(typeof grammar.getRule('expression').expand, 'function', 'Rule should be constructible');
+  console.log('✓ defineRule and RuleConfig works\n');
+}
+
+async function runTests() {
+  console.log('Testing AlteraParser...\n');
+
+  testTokenCreation();
+  testLexerGrammar();
+  testLexer();
+  testAst();
+  testGrammarAndParser();
+  testDefineRuleAndRuleConfig();
 
   console.log('All tests passed! ✓');
 }
