@@ -88,7 +88,7 @@ export class Parser {
         const astNode = new Ast(startNode.rule.name, null, startNode.getId());
         astStack.push(astNode);
       } else if (node.nodeType === GrammarNodeType.RULE_END) {
-        const completedAst = astStack.pop();
+        let completedAst = astStack.pop();
         const endNode = node;
         const transformer = endNode.rule.grammar.getAstTransformer(endNode.rule.name);
         if (transformer) {

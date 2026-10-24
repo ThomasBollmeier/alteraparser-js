@@ -1,6 +1,6 @@
 import terser from '@rollup/plugin-terser';
 
-const VERSION = '3.1.0';
+const VERSION = '3.1.1';
 
 const filenamePrefix = `alteraparser-${VERSION}`;
 
