@@ -3,6 +3,7 @@
  */
 
 import assert from 'assert';
+import { readFileSync } from 'node:fs';
 import {
   Token,
   LexerGrammar,
@@ -20,6 +21,11 @@ import {
   VERSION,
   version
 } from './src/index.js';
+import { AstVisualizer } from './src/ast.js';
+
+const packageJson = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8')
+);
 
 function testTokenCreation() {
   console.log('Test 1: Token Creation');
@@ -112,9 +118,40 @@ function testDefineRuleAndRuleConfig() {
 function testVersionMetadata() {
   console.log('Test 7: Version metadata');
   assert.strictEqual(typeof VERSION, 'string', 'VERSION should be a string');
-  assert.strictEqual(VERSION, '3.1.0', 'VERSION should match package version');
+  assert.strictEqual(VERSION, packageJson.version, 'VERSION should match package version');
   assert.strictEqual(version, VERSION, 'version alias should match VERSION');
   console.log('✓ Version metadata works\n');
+}
+
+function testAstVisualizer() {
+  console.log('Test 8: AstVisualizer');
+
+  const root = new Ast('expression');
+  root.addChild(new Ast('number', '42'));
+
+  const addition = new Ast('addition');
+  addition.addChild(new Ast('number', '7'));
+  addition.addChild(new Ast('number', '3'));
+  root.addChild(addition);
+
+  const visualizer = new AstVisualizer();
+  const dot = visualizer.createDotString(root);
+
+  const expectedDot = `digraph AST {
+  node0 [label="expression"];
+  node1 [label="number: \\"42\\""];
+  node0 -> node1;
+  node2 [label="addition"];
+  node3 [label="number: \\"7\\""];
+  node2 -> node3;
+  node4 [label="number: \\"3\\""];
+  node2 -> node4;
+  node0 -> node2;
+}
+`;
+
+  assert.strictEqual(dot, expectedDot, 'DOT output should match expected structure');
+  console.log('✓ AstVisualizer works\n');
 }
 
 async function runTests() {
@@ -127,6 +164,7 @@ async function runTests() {
   testGrammarAndParser();
   testDefineRuleAndRuleConfig();
   testVersionMetadata();
+  testAstVisualizer();
 
   console.log('All tests passed! ✓');
 }

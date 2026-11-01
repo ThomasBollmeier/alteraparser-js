@@ -3,7 +3,9 @@
  * Main entry point for ES6 modules
  */
 
-export const VERSION = '3.1.1';
+import { VERSION } from './version.js';
+
+export { VERSION };
 export const version = VERSION;
 
 export { Token, TokenStream, TokenStreamFromList } from './token.js';

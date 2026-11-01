@@ -333,3 +333,52 @@ export function transformAst(astTransformer, astName) {
     return fn;
   };
 }
+
+/**
+ * Class for visualizing AST nodes in graphviz format
+ */
+export class AstVisualizer {
+
+  constructor() {
+    this._numNodes = 0;
+    this._output = '';
+  }
+
+  /**
+   * Visualize an AST node and its children in graphviz format
+   * @param {Ast} ast - The AST node to visualize
+   * @returns {string} The graphviz representation of the AST
+   */
+  createDotString(ast) {
+    this._numNodes = 0;
+    this._output = 'digraph AST {\n';
+    this._createDotStringForNode(ast);
+    this._output += '}\n';
+    return this._output;
+  }
+
+  _escapeDotLabel(value) {
+    return String(value)
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, '\\n');
+  }
+
+  _createDotStringForNode(ast) {
+    const nodeId = this._numNodes++;
+    if (ast.value === null) {
+      const nodeName = this._escapeDotLabel(ast.name);
+      this._output += `  node${nodeId} [label="${nodeName}"];\n`;
+    } else {
+      const nodeName = this._escapeDotLabel(ast.name);
+      const nodeValue = this._escapeDotLabel(ast.value);
+      this._output += `  node${nodeId} [label="${nodeName}: \\"${nodeValue}\\""];\n`;
+    }
+    for (let i = 0; i < ast.children.length; i++) {
+      const childId = this._numNodes;
+      this._createDotStringForNode(ast.children[i]);
+      this._output += `  node${nodeId} -> node${childId};\n`;
+    }
+  }
+
+}
