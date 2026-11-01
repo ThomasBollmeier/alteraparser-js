@@ -14,6 +14,7 @@ export { Lexer } from './lexer.js';
 export {
   Ast,
   AstStrWriter,
+  AstVisualizer,
   AstWalker,
   walk,
   AstTransformer,
